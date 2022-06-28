@@ -2,12 +2,25 @@ package com.wisdge.web.springframework;
 
 import com.wisdge.utils.ByteUtils;
 import com.wisdge.utils.JSonUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.util.Assert;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +29,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 @Slf4j
 public class WebUtils extends org.springframework.web.util.WebUtils {
@@ -255,17 +267,52 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		setContentDisposition(request, response, filename, false);
 	}
 
+	/**
+	 * 获取当前mvc注册的所有REST接口
+	 * @return
+	 */
+	public static List<RestModel> getRestList() {
+		List<RestModel> list = new ArrayList<>();
+		Map<String, RestModel> map = new HashMap<>();
+		List<String> urlList = new ArrayList<String>();
+		WebApplicationContext wac = (WebApplicationContext) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		Map<String, HandlerMapping> requestMappings = BeanFactoryUtils.beansOfTypeIncludingAncestors(wac, HandlerMapping.class, true, false);
+		for (HandlerMapping handlerMapping : requestMappings.values()) {
+			if (handlerMapping instanceof RequestMappingHandlerMapping) {
+				RequestMappingHandlerMapping rmhm = (RequestMappingHandlerMapping) handlerMapping;
+				Map<RequestMappingInfo, HandlerMethod> handlerMethods = rmhm.getHandlerMethods();
+				for (RequestMappingInfo rmi : handlerMethods.keySet()) {
+//                    PatternsRequestCondition prc = rmi.getPatternsCondition();
+//                    Set<String> patterns = prc.getPatterns();
+					Set<String> patterns = rmi.getPatternValues();
+					HandlerMethod handlerMethod = handlerMethods.get(rmi);
+					for (String url : patterns) {
+						Class<?> clazz = handlerMethod.getBeanType();
+						Method method = handlerMethod.getMethod();
+						RestModel restModel = new RestModel(url, clazz.toString(), method.toString());
+						map.put(url, restModel);
+						urlList.add(url);
+					}
+				}
+			}
+		}
+		String[] urls = new String[urlList.size()];
+		urls = urlList.toArray(urls);
+		Arrays.sort(urls);
+		for (String url : urls) {
+			list.add(map.get(url));
+		}
+		return list;
+	}
 }
 
+@Data
+@NoArgsConstructor
 class RangeSettings{
     private long start;
     private long end;
     private long contentLength;
     private long totalLength;
-
-    public RangeSettings(){
-        super();
-    }
 
     public RangeSettings(long start, long end, long contentLength,long totalLength) {
         this.start = start;
@@ -278,39 +325,16 @@ class RangeSettings{
         this.totalLength = totalLength;
     }
 
-    public long getStart() {
-        return start;
-    }
+	public boolean isRange() {
+		return (start > 0 || contentLength < totalLength);
+	}
+}
 
-    public void setStart(long start) {
-        this.start = start;
-    }
-
-    public long getEnd() {
-        return end;
-    }
-
-    public void setEnd(long end) {
-        this.end = end;
-    }
-
-    public long getContentLength() {
-        return contentLength;
-    }
-
-    public void setContentLength(long contentLength) {
-        this.contentLength = contentLength;
-    }
-
-    public long getTotalLength() {
-        return totalLength;
-    }
-
-    public void setTotalLength(long totalLength) {
-        this.totalLength = totalLength;
-    }
-
-    public boolean isRange() {
-        return (start > 0 || contentLength < totalLength);
-    }
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class RestModel {
+	private String url;
+	private String clazz;
+	private String method;
 }
