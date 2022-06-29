@@ -4,7 +4,7 @@ import com.wisdge.commons.redis.RedisTemplate;
 import com.wisdge.utils.StringUtils;
 import com.wisdge.utils.security.MD5;
 import com.wisdge.utils.security.SHA;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.wisdge.web.springframework.SpringContextUtil;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -12,10 +12,8 @@ public class ShortcodeUtils {
     private static final String SHORTCODE_NS = "shortcode";
     private static final String SHORTCODE_SALT = "wisdge";
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    protected String getShortCodeWithRedis(String content, Integer ttl, TimeUnit timeUnit) {
+    public static String getShortCodeWithRedis(String content, Integer ttl, TimeUnit timeUnit) {
+        RedisTemplate redisTemplate = SpringContextUtil.getBean("redisTemplate");
         List<String> shorts = getShortUrl(content);
         for (String sc: shorts) {
             String x = (String) redisTemplate.get(SHORTCODE_NS + ":" + sc);
@@ -37,7 +35,7 @@ public class ShortcodeUtils {
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z" };
 
-    private List<String> getShortUrl(String content) {
+    private static List<String> getShortUrl(String content) {
         String hex = MD5.hmac(SHA.encrypt(StringUtils.reverse(content)), SHORTCODE_SALT);
         List<String> shorts = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -62,7 +60,7 @@ public class ShortcodeUtils {
         return shorts;
     }
 
-    private String getShortCode() {
+    private static String getShortCode() {
         StringBuffer shortBuffer = new StringBuffer();
         String uuid = UUID.randomUUID().toString().replace("-", "");
         for (int i = 0; i < 8; i++) {
