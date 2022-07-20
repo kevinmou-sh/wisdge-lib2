@@ -38,6 +38,10 @@ public class PdfUtils {
      * @return BufferedImage 图片对象
      */
     public static BufferedImage pdfToImage(InputStream inputStream) {
+        return pdfToImage(inputStream, 300f);
+    }
+
+    public static BufferedImage pdfToImage(InputStream inputStream, float dpi) {
         int shiftWidth = 0; // 总宽度
         int shiftHeight = 0; // 总高度
         List<PdfUnit> unitArr = new ArrayList<>();
@@ -50,7 +54,7 @@ public class PdfUtils {
             // 循环每个页码
             for (int i = 0, len = pdDocument.getNumberOfPages(); i < len; i++) {
                 // DPI参数越大，越清晰
-                BufferedImage image = renderer.renderImageWithDPI(i, 300, ImageType.RGB);
+                BufferedImage image = renderer.renderImageWithDPI(i, dpi, ImageType.RGB);
                 int imageHeight = image.getHeight();
                 int imageWidth = image.getWidth();
                 if (i == 0) {

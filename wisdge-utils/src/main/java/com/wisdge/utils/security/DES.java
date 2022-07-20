@@ -57,7 +57,7 @@ public class DES {
     /**
      * Description 根据键值进行解密
      */
-    public static String decrypt(String data, String key) throws IOException, Exception {
+    public static String decrypt(String data, String key) throws Exception {
         if (data == null) return null;
         byte[] bt = decrypt(Base64.getDecoder().decode(data), key.getBytes(StandardCharsets.UTF_8));
         return new String(bt, StandardCharsets.UTF_8);
