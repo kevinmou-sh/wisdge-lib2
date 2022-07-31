@@ -25,15 +25,17 @@ public class AliSMSService extends AbstractSmsService {
 	private String accessId;
 	private String accessSecret;
 	private String signName;
-	private Map<String, String> templateIds = new HashMap<>();
+	private Map<String, String> templateIds;
 
 	public static AliSMSService getInstance(Map<String, Object> injectMapper) {
 		AliSMSService instance = new AliSMSService();
 		try {
 			BeanUtils.populate(instance, injectMapper);
+//			log.debug(instance.templateIds.toString());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
+		log.debug("Create Aliyun-SMS service provider succeed");
 		return instance;
 	}
 

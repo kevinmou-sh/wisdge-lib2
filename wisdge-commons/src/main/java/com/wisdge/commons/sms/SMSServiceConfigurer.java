@@ -11,6 +11,7 @@ public class SMSServiceConfigurer {
     private Map<String, Object> properties;
 
     public ISmsService getService() {
+        log.debug("SMS Service provider: {}", provider);
         if ("AliSMSService".equalsIgnoreCase(provider))
             return AliSMSService.getInstance(properties);
         else if ("RLSMSService".equalsIgnoreCase(provider))
