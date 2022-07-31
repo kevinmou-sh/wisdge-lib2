@@ -6,6 +6,7 @@ import com.wisdge.utils.security.MD5;
 import com.wisdge.xhr.XHRPoolService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.text.MessageFormat;
@@ -22,6 +23,16 @@ public class JDSMSService extends AbstractSmsService {
 	private Map<String, String> templateIds = new HashMap<>();
 	@Autowired
 	private XHRPoolService xhrService;
+
+	public static JDSMSService getInstance(Map<String, Object> injectMapper) {
+		JDSMSService instance = new JDSMSService();
+		try {
+			BeanUtils.populate(instance, injectMapper);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return instance;
+	}
 
 	@Override
 	public SmsResponse send(String[] mobiles, Map<String, Object> paramsMap, String smsType) throws Exception {

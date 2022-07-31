@@ -11,8 +11,10 @@ import com.wisdge.utils.CollectionUtils;
 import com.wisdge.utils.JSonUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,16 @@ public class AliSMSService extends AbstractSmsService {
 	private String accessSecret;
 	private String signName;
 	private Map<String, String> templateIds = new HashMap<>();
+
+	public static AliSMSService getInstance(Map<String, Object> injectMapper) {
+		AliSMSService instance = new AliSMSService();
+		try {
+			BeanUtils.populate(instance, injectMapper);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return instance;
+	}
 
 	@Override
 	public SmsResponse send(String[] mobiles, Map<String, Object> paramsMap, String smsType) throws Exception {
