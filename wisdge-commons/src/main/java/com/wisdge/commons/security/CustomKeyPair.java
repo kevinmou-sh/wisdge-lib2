@@ -2,6 +2,7 @@ package com.wisdge.commons.security;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.stereotype.Component;
@@ -13,9 +14,11 @@ import java.util.Base64;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Component
 @ToString
 @Slf4j
+@ConfigurationProperties(prefix = "key-pair")
 public class CustomKeyPair {
     private String file;
     private String alias;
@@ -23,12 +26,6 @@ public class CustomKeyPair {
 
     @Setter(AccessLevel.NONE)
     private KeyPair keyPair;
-
-    public CustomKeyPair(String file, String alias, String key) {
-        this.file = file;
-        this.alias = alias;
-        this.key = key;
-    }
 
     public KeyPair getKeyPair() {
         if (keyPair == null) {
