@@ -32,9 +32,10 @@ public class CustomKeyPair {
 
     public KeyPair getKeyPair() {
         if (keyPair == null) {
+            log.debug("Create keyPair from classpath {}", file);
             KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource(file), key.toCharArray());
             keyPair = keyStoreKeyFactory.getKeyPair(alias, key.toCharArray());
-            log.debug("Create keyPair from classpath {}", file);
+            log.debug("Create keyPair succeed");
         }
         return keyPair;
     }
