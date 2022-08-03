@@ -1,6 +1,7 @@
 package com.wisdge.commons.security;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.Base64;
 @NoArgsConstructor
 @Component
 @ToString
+@Slf4j
 public class CustomKeyPair {
     private String file;
     private String alias;
@@ -32,6 +34,7 @@ public class CustomKeyPair {
         if (keyPair == null) {
             KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource(file), key.toCharArray());
             keyPair = keyStoreKeyFactory.getKeyPair(alias, key.toCharArray());
+            log.debug("Create keyPair from classpath {}", file);
         }
         return keyPair;
     }
