@@ -290,7 +290,8 @@ public class RSAUtils {
 				cache = cipher.doFinal(data, offSet, inputLen - offSet);
 			}
 			out.write(cache, 0, cache.length);
-			offSet = ++i * MAX_ENCRYPT_BLOCK;
+			i ++;
+			offSet = i * MAX_ENCRYPT_BLOCK;
 		}
 		byte[] encryptedData = out.toByteArray();
 		out.close();
