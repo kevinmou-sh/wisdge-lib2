@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.wisdge.utils.exceptions.IllegalFormatException;
 import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
@@ -22,10 +23,11 @@ public class JSonUtils {
 	 * @throws IOException
 	 */
 	public static String parse(Object object) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModules(new JavaTimeModule());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		mapper.setDateFormat(format);
-		return mapper.writeValueAsString(object);
+		objectMapper.setDateFormat(format);
+		return objectMapper.writeValueAsString(object);
 	}
 
 	/**
