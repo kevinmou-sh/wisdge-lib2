@@ -18,6 +18,13 @@ import java.util.Map;
 
 @Slf4j
 public class MapUtils {
+
+    /**
+     * 使用key/value创建一个Map对象
+     * @param key
+     * @param value
+     * @return
+     */
     public static Map<String, Object> make(String key, Object value) {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
@@ -26,20 +33,14 @@ public class MapUtils {
 
     /**
      * 使用BeanUtils工具类 将Map转为Bean
-     * jar包地址
-     * <dependency>
-     * <groupId>commons-io</groupId>
-     * <artifactId>commons-io</artifactId>
-     * <version>2.6</version>
-     * </dependency>
      *
-     * @param classz
-     * @param map
+     * @param clazz 创建对象的Class类声明
+     * @param map Map对象
      * @param <T>
      * @return
      */
-    public static <T> T toBean(Class<T> classz, Map map) throws Exception {
-        T bean = classz.newInstance();
+    public static <T> T toBean(Class<T> clazz, Map map) throws Exception {
+        T bean = clazz.newInstance();
         DateTimeConverter dtConverter = new DateTimeConverter();
         ConvertUtilsBean convertUtilsBean = new ConvertUtilsBean();
         convertUtilsBean.deregister(Date.class);
@@ -52,8 +53,8 @@ public class MapUtils {
     /**
      * 将Map转为Bean
      *
-     * @param type
-     * @param map
+     * @param clazz 创建对象的Class类声明
+     * @param map Map对象
      * @param <T>
      * @return
      * @throws IntrospectionException    获取类属性异常
@@ -61,9 +62,9 @@ public class MapUtils {
      * @throws InstantiationException    创建Bean对象异常
      * @throws InvocationTargetException 对象转换异常
      */
-    public static <T> T toBeanInfo(Class<T> type, Map map) throws IntrospectionException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
-        T bean = type.newInstance(); // 创建 JavaBean 对象
+    public static <T> T toBeanInfo(Class<T> clazz, Map map) throws IntrospectionException, IllegalAccessException, InstantiationException {
+        BeanInfo beanInfo = Introspector.getBeanInfo(clazz); // 获取类属性
+        T bean = clazz.newInstance(); // 创建 JavaBean 对象
         // 给 JavaBean 对象的属性赋值
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for (int i = 0; i < propertyDescriptors.length; i++) {
@@ -95,7 +96,7 @@ public class MapUtils {
      * 将Bean对象转为Map
      *
      * @param bean
-     * @return
+     * @return Map
      * @throws IntrospectionException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
@@ -121,8 +122,49 @@ public class MapUtils {
         }
         return returnMap;
     }
-}
 
+    public static <T> T get(Map map, String key, T defaultValue) {
+        if (map.containsKey(key)) {
+            return (T) map.get(key);
+        }
+        return defaultValue;
+    }
+
+    public static String getString(Map map, String key, String defaultValue) {
+        if (map.containsKey(key)) {
+            return (String) map.get(key);
+        }
+        return defaultValue;
+    }
+
+    public static int getInteger(Map map, String key, int defaultValue) {
+        if (map.containsKey(key)) {
+            return (int) map.get(key);
+        }
+        return defaultValue;
+    }
+
+    public static float getFloat(Map map, String key, float defaultValue) {
+        if (map.containsKey(key)) {
+            return (float) map.get(key);
+        }
+        return defaultValue;
+    }
+
+    public static long getLong(Map map, String key, long defaultValue) {
+        if (map.containsKey(key)) {
+            return (long) map.get(key);
+        }
+        return defaultValue;
+    }
+
+    public static boolean getBoolean(Map map, String key, boolean defaultValue) {
+        if (map.containsKey(key)) {
+            return (boolean) map.get(key);
+        }
+        return defaultValue;
+    }
+}
 
 //日期转换器
 @Slf4j
