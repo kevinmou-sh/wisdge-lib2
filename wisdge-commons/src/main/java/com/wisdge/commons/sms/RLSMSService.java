@@ -57,4 +57,9 @@ public class RLSMSService extends AbstractSmsService {
 		}
 		return SmsResponse.build(resultCount);
 	}
+
+	@Override
+	public boolean hasTemplate(String smsType) {
+		return templateIds.containsKey(smsType);
+	}
 }

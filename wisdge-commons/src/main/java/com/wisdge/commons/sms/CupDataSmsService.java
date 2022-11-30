@@ -37,7 +37,7 @@ public class CupDataSmsService extends AbstractSmsService {
             try {
                 JSONObject requestJSON = new JSONObject();
                 requestJSON.put("mobile", mobiles[0]);
-                log.debug("Request: {}", requestJSON.toString());
+                log.debug("Request: {}", requestJSON);
                 String resp = xhrPoolService.post(this.uri, requestJSON.toString());
 //            String resp = " {\n" +
 //                    "                \"msg\": \"\",\n" +
@@ -63,5 +63,10 @@ public class CupDataSmsService extends AbstractSmsService {
         SmsResponse smsResponse = SmsResponse.build(resultCount);
         smsResponse.setCaches(caches.toArray(new SmsCaptcha[0]));
         return smsResponse;
+    }
+
+    @Override
+    public boolean hasTemplate(String smsType) {
+        return false;
     }
 }

@@ -59,4 +59,10 @@ public class JDSMSService extends AbstractSmsService {
 			return SmsResponse.build();
 		}
 	}
+
+
+	@Override
+	public boolean hasTemplate(String smsType) {
+		return templateIds.containsKey(smsType);
+	}
 }

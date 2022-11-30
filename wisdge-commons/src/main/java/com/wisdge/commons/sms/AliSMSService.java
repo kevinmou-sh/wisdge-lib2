@@ -13,9 +13,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -84,5 +81,10 @@ public class AliSMSService extends AbstractSmsService {
 			log.debug("AliSMSService failed: {}", returnCode);
 			return SmsResponse.build();
 		}
+	}
+
+	@Override
+	public boolean hasTemplate(String smsType) {
+		return templateIds.containsKey(smsType);
 	}
 }

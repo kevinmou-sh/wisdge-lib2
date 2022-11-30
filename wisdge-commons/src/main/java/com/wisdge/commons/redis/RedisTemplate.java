@@ -107,13 +107,4 @@ public class RedisTemplate extends org.springframework.data.redis.core.RedisTemp
         return super.delete(getGlobalKey(key));
     }
 
-    @Override
-    public void convertAndSend(String channel, Object obj) {
-        super.convertAndSend(channel, obj);
-    }
-
-    @Override
-    public RedisConnectionFactory getConnectionFactory() {
-        return super.getConnectionFactory();
-    }
 }
