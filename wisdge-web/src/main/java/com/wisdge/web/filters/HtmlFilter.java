@@ -102,7 +102,7 @@ public class HtmlFilter {
      *
      */
     public HtmlFilter() {
-        vAllowed = new HashMap<>();
+        vAllowed = new HashMap();
 
         final ArrayList<String> a_atts = new ArrayList<String>();
         a_atts.add("href");

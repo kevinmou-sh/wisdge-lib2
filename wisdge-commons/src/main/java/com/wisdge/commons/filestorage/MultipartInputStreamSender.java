@@ -111,7 +111,7 @@ public class MultipartInputStreamSender {
 
             // Prepare some variables. The full Range represents the complete file.
             full = new Range(0, length - 1, length);
-            ranges = new ArrayList<>();
+            ranges = new ArrayList();
             // Validate and process Range and If-Range headers.
             String range = request.getHeader("Range");
             if (range != null) {

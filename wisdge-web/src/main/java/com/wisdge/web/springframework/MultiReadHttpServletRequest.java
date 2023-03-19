@@ -1,7 +1,6 @@
 package com.wisdge.web.springframework;
 
 import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
@@ -105,7 +104,7 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
      * @return: Map<String, Object>
      */
     public static Map<String, Object> getJsonByFormData(ServletRequest request){
-        Map<String, Object> bodyMap = new HashMap<>(16);
+        Map<String, Object> bodyMap = new HashMap(16);
         try {
             // 参数定义
             String paraName = null;
@@ -118,7 +117,7 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
             return bodyMap;
         } catch(Exception e) {
             log.error("请求参数转换错误!", e);
-            return new HashMap<>();
+            return new HashMap();
         }
     }
 

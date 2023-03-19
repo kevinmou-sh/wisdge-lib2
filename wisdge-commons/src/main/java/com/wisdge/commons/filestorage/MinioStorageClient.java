@@ -67,7 +67,7 @@ public class MinioStorageClient implements IFileStorageClient {
 
         log.debug("Init MinIoStorageClient oos endpoint:{}, accessKey: {}, secretSecret: {}, bucketName:{}, region:{}",
                 new Object[]{this.endpoint, this.accessKey, this.accessSecret, this.bucketName, this.region});
-        minioClientList = new ArrayList<>();
+        minioClientList = new ArrayList();
         String[] arr = endpoint.split(",");
         for (String url : arr) {
             if (StringUtils.isBlank(url)) {

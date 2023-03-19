@@ -30,7 +30,7 @@ public class FileExtProvider {
 			return;
 		}
 
-		extVT = new java.util.Vector<>();
+		extVT = new java.util.Vector();
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = dbf.newDocumentBuilder();

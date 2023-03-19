@@ -16,7 +16,7 @@ public class RLSMSService extends AbstractSmsService {
 	private String accId;
 	private String accToken;
 	private String appId;
-	private Map<String, String> templateIds = new HashMap<>();
+	private Map<String, String> templateIds = new HashMap();
 
 	public static RLSMSService getInstance(Map<String, Object> injectMapper) {
 		RLSMSService instance = new RLSMSService();
