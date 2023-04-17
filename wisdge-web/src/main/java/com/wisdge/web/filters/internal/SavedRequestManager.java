@@ -2,9 +2,8 @@ package com.wisdge.web.filters.internal;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

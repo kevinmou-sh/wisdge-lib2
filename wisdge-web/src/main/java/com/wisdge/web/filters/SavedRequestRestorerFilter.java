@@ -3,11 +3,10 @@ package com.wisdge.web.filters;
 import com.wisdge.web.filters.internal.SavedRequestManager;
 import com.wisdge.web.filters.internal.SavedRequestManager.SavedRequest;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;

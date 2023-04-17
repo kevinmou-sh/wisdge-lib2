@@ -2,7 +2,7 @@ package com.wisdge.web;
 
 import com.wisdge.utils.JSonUtils;
 import lombok.extern.slf4j.Slf4j;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.ServletResponse;
 import java.io.PrintWriter;
 
 /**

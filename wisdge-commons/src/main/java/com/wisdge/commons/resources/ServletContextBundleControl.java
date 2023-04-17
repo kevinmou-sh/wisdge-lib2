@@ -1,6 +1,6 @@
 package com.wisdge.commons.resources;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;

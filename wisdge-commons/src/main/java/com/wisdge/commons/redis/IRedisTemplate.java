@@ -2,6 +2,8 @@ package com.wisdge.commons.redis;
 
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -23,10 +25,14 @@ public interface IRedisTemplate {
 
 	Boolean expire(String key, long timeout, TimeUnit unit);
 	Boolean expireGlobal(String key, long timeout, TimeUnit unit);
+	Boolean expire(String key, Duration timeout);
+	Boolean expireAt(String key, Instant expireAt);
+	void restore(String key, byte[] value, long timeToLive, TimeUnit unit);
 
 	Boolean delete(String key);
 	Boolean deleteGlobal(String key);
 
-	void convertAndSend(String channel, Object obj);
+	Long convertAndSend(String channel, Object obj);
 	RedisConnectionFactory getConnectionFactory();
+
 }

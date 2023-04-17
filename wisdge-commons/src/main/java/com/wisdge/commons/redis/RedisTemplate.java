@@ -2,10 +2,11 @@ package com.wisdge.commons.redis;
 
 import com.wisdge.utils.StringUtils;
 import lombok.Data;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -92,6 +93,21 @@ public class RedisTemplate extends org.springframework.data.redis.core.RedisTemp
     @Override
     public Boolean expire(String key, long timeout, TimeUnit unit) {
         return super.expire(getKey(key), timeout, unit);
+    }
+
+    @Override
+    public Boolean expire(String key, Duration timeout) {
+        return super.expire(getKey(key), timeout);
+    }
+
+    @Override
+    public Boolean expireAt(String key, Instant expireAt) {
+        return super.expireAt(getKey(key), expireAt);
+    }
+
+    @Override
+    public void restore(String key, byte[] value, long timeToLive, TimeUnit unit) {
+        super.restore(getKey(key), value, timeToLive, unit);
     }
 
     public Boolean expireGlobal(String key, long timeout, TimeUnit unit) {

@@ -1,7 +1,7 @@
 package com.wisdge.web;
 
 import com.wisdge.utils.StringUtils;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
